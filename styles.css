@@ -17,7 +17,6 @@ body {
 .header {
     display: flex;
     background-color: white;
-    box-shadow: 0.5rem 0.5rem 1rem gray;
     min-height: 10vh;
 }
 
@@ -36,13 +35,64 @@ body {
 
 /* Body */
 
+.body-container {
+    display: grid;
+    border-top: 7vh solid black;
+    min-height: 78vh;
+    background-color: #d4d4d4;
+}
+
+/* New Game */
+
+.new-game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10vw;
+    padding-top: 17.5vh;
+    padding-bottom: 17.5vh;
+    border-top: 0.35rem solid maroon;
+    border-bottom: 0.35rem solid maroon;
+    flex: 1;
+}
+
+.new-game button {
+    border: none;
+    cursor: pointer;
+    padding: 0.35rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    background-color: #d4d4d4;
+}
+
+.new-game button:active {
+    transform: scale(0.90);
+}
+
+/* Multiplayer */
+
+.multiplayer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 10vh;
+    background-color: red;
+}
 
 /* Footer */
 
 .footer {
     display: flex;
     background-color: #333;
-    height: 5vh;
+    min-height: 5vh;
     margin-top: auto;
 }
 

@@ -12,12 +12,16 @@ body {
     position: relative;
 }
 
+button {
+    cursor: pointer;
+}
+
 /* Header */
 
 .header {
     display: flex;
     background-color: white;
-    min-height: 10vh;
+    height: 10vh;
 }
 
 .header-container {
@@ -36,9 +40,9 @@ body {
 /* Body */
 
 .body-container {
-    display: grid;
+    display: flex;
     border-top: 7vh solid black;
-    min-height: 78vh;
+    height: 78vh;
     background-color: #d4d4d4;
 }
 
@@ -51,7 +55,7 @@ body {
     flex: 1;
 }
 
-.buttons {
+.new-game .buttons {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,7 +69,6 @@ body {
 
 .new-game button {
     border: none;
-    cursor: pointer;
     padding: 0.35rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2rem;
@@ -80,11 +83,175 @@ body {
 
 .multiplayer {
     display: none;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     flex: 1;
-    height: 10vh;
-    background-color: red;
+    height: 100%;
+    background-color: lightgray;
+}
+
+.multiplayer .buttons {
+    width: 100%;
+}
+
+.multiplayer .cButton {
+    background-color: lightgray;
+    border: none;
+    color: black;
+}
+
+.multiplayer button:active {
+    transform: scale(0.95);
+}
+
+.left {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+}
+
+.change-name {
+    display: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.1fr;
+    animation-name: non-show;
+    animation-duration: 1.5s;
+    gap: 0.5rem;
+    background-color:rebeccapurple; 
+    height: 100%;
+    animation-fill-mode: forwards;
+}
+
+.change-name.active {
+    animation-name: show;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+.input {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.left form {
+    margin-top: 1rem;
+}
+
+.input input {
+    width: 90%;
+}
+
+.multiplayer .submit {
+    width: 80%;
+    height: 1.5rem;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.top {
+    display: flex;
+    width: 100%;
+    height: 15%;
+    align-items: center;
+    justify-content: center;
+}
+
+.right .top .title {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+
+.middle {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70%;
+    background-color: white;
+}
+
+.gameBoard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0;
+}
+
+.square {
+    background-color: white;
+    width: 15vh;
+    height: 15vh;
+    border: 1px solid maroon;
+    cursor: pointer;
+}
+
+.square.one {
+    border-top: none;
+    padding-top: 1px;
+}
+
+.square.three {
+    border-bottom: none;
+    padding-bottom: 1px;
+}
+
+.square.first {
+    border-left: none;
+    padding-left: 1px;
+}
+
+.square.last {
+    border-right: none;
+    padding-right: 1px;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.bottom .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10vw;
+    width: 100%;
+}
+
+.bottom button {
+    border: none;
+    background-color: lightgray;
+    font-weight: bold;
+    font-size: 100%;
+}
+
+@keyframes show {
+    from {
+        width: 0rem;
+    }
+
+    to {
+        width: 15rem;
+    }
+}
+
+@keyframes non-show {
+    from {
+        width: 15rem;
+    }
+
+    to {
+        width: 0px;
+    }
 }
 
 /* Footer */
@@ -92,7 +259,7 @@ body {
 .footer {
     display: flex;
     background-color: #333;
-    min-height: 5vh;
+    height: 5vh;
     margin-top: auto;
 }
 

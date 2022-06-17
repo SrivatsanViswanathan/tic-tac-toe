@@ -185,6 +185,10 @@ button {
 
 .square {
     background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
     width: 15vh;
     height: 15vh;
     border: 1px solid maroon;
@@ -234,6 +238,9 @@ button {
     font-size: 100%;
 }
 
+.multiplayer .message {
+    visibility: hidden;
+}
 @keyframes show {
     from {
         width: 0rem;

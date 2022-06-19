@@ -116,17 +116,25 @@ button {
     grid-template-columns: 1fr;
     grid-template-rows: 0.1fr 0.1fr;
     animation-name: non-show;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     gap: 0.5rem;
-    background-color:rebeccapurple; 
+    background-color: rebeccapurple;
     height: 100%;
     animation-fill-mode: forwards;
 }
 
 .change-name.active {
     animation-name: show;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
+}
+
+.form.active, .submit.active, .error.active {
+    display: block;
+}
+
+.form, .submit, .error {
+    display: none;
 }
 
 .input {
@@ -145,6 +153,11 @@ button {
 .multiplayer .submit {
     width: 80%;
     height: 1.5rem;
+}
+
+.multiplayer .error {
+    margin-top: -1.5rem;
+    color: red;
 }
 
 .right {
@@ -241,6 +254,7 @@ button {
 .multiplayer .message {
     visibility: hidden;
 }
+
 @keyframes show {
     from {
         width: 0rem;

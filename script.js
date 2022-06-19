@@ -94,19 +94,40 @@ const newGame = (() => {
 // Multiplayer Screen
 const multiplayer = (() => {
     const nameChange = document.querySelector('#change-name');
-    const button = document.querySelector('#cButton');
+    const cbutton = document.querySelector('#cButton');
     const buttonSubmit = document.querySelector('#submit');
     const restartButton = document.querySelector('#restart');
     const playAgainButton = document.querySelector('#play-again')
     const message = document.querySelector('#message');
     const squares = document.querySelectorAll('.square');
+    const form = document.querySelector('#form');
+    const error = document.querySelector('#error');
     const modal = () => {
-        button.addEventListener('click', () => {
+        cbutton.addEventListener('click', () => {
+            cbutton.disabled = true;
+            window.setTimeout(timing, 1000);
+            function timing() {
+                cbutton.disabled = false;
+            }
             if (nameChange.style.display === '') {      
                 active();
             }
             else { 
                 notActive();
+            }
+        });
+        buttonSubmit.addEventListener('click', () => {
+            const player1Name = document.querySelector('#player1');
+            const player2Name = document.querySelector('#player2');
+            const validate = formInformation.formValidation(player1Name.value, player2Name.value);
+            console.log(validate);
+            if (validate) {
+                if (nameChange.style.display === '') {
+                    active();
+                }
+                else {
+                    notActive();
+                }
             }
         });
     }
@@ -118,13 +139,23 @@ const multiplayer = (() => {
     function active() {
         nameChange.style.display = 'grid';
         nameChange.classList.add('active');
-        buttonSubmit.classList.remove('remove');
+        window.setTimeout(timing, 300);
+        function timing() {
+            buttonSubmit.classList.add('active');
+            form.classList.add('active');
+            error.classList.add('active');
+        }
     }
     function notActive() {
         nameChange.classList.remove('active');
-        buttonSubmit.classList.add('remove');
-        window.setTimeout(timing, 1500);
+        window.setTimeout(timing, 300);
+        window.setTimeout(timing2, 1500);
         function timing() {
+            form.classList.remove('active');
+            buttonSubmit.classList.remove('active');
+            error.classList.remove('active');
+        }
+        function timing2() {
             nameChange.style.display = '';
         }
     }
@@ -149,13 +180,15 @@ const multiplayer = (() => {
 const restart = (() => {
     const homeScreen = () => {
         const nameChange = document.querySelector('#change-name');
-        const buttonSubmit = document.querySelector('#submit');
         const player1Input = document.querySelector('#player1');
         const player1Title = document.querySelector('#player1-heading');
         const player2Input = document.querySelector('#player2');
         const player2Title = document.querySelector('#player2-heading');
         const squares = document.querySelectorAll('.square');
         const message = document.querySelector('#message');
+        const form = document.querySelector('#form');
+        const formButton = document.querySelector('#submit');
+        const error = document.querySelector('#error');
         for (let i = 0; i < 9; i++) {
             squares[i].textContent = '';
             gameBoard.array[i] = '';
@@ -163,10 +196,12 @@ const restart = (() => {
         }
         player1Input.value = '';
         player2Input.value = '';
+        error.textContent = '';
         player1Title.textContent = 'Player 1';
         player2Title.textContent = 'Player 2';
         nameChange.classList.remove('active');
-        buttonSubmit.classList.add('remove');
+        form.classList.remove('active');
+        formButton.classList.remove('active');
         nameChange.style.display = '';
         player1 = players('Player 1', 'Player 1');
         player2 = players('Player 2', 'Player 2');
@@ -187,15 +222,29 @@ const formInformation = (() => {
         formButton.addEventListener('click', () => {
             const player1Name = document.querySelector('#player1');
             const player2Name = document.querySelector('#player2');
-            player1 = players(player1Name.value, 'Player 1');
-            player2 = players(player2Name.value, 'Player 2');
-            player1.getName();
-            player2.getName();
-            player1Name.value = '';
-            player2Name.value = '';
+            const validate = formValidation(player1Name.value, player2Name.value);
+            if (validate) {
+                player1 = players(player1Name.value, 'Player 1');
+                player2 = players(player2Name.value, 'Player 2');
+                player1.getName();
+                player2.getName();
+                player1Name.value = '';
+                player2Name.value = '';
+            }
         });
     }
-    return {form};
+    const formValidation = (player1, player2) => {
+        const error = document.querySelector('#error');
+        if (player1 === player2 && player1 != '') {
+            error.textContent = "* Players can't have the same name";
+            return false;
+        }
+        else {
+            error.textContent = ''
+            return true;
+        }
+    }
+    return {form, formValidation};
 })();
 
 // Find the Winner

@@ -163,6 +163,7 @@ const multiplayer = (() => {
         playAgainButton.addEventListener('click', () => {
             for (let i = 0; i < 9; i++) {
                 squares[i].textContent = '';
+                squares[i].style.backgroundColor = 'white';
                 gameBoard.array[i] = '';
                 squares[i].setAttribute('value', 'false');
             }
@@ -191,6 +192,7 @@ const restart = (() => {
         const error = document.querySelector('#error');
         for (let i = 0; i < 9; i++) {
             squares[i].textContent = '';
+            squares[i].style.backgroundColor = 'white';
             gameBoard.array[i] = '';
             squares[i].setAttribute('value', 'false');
         }
@@ -250,6 +252,7 @@ const formInformation = (() => {
 // Find the Winner
 const winner = (() => {
     const message = document.querySelector('#message');
+    const squares = document.querySelectorAll('.square');
     let win = false;
     let player = '';
     const getWin = () => {
@@ -264,6 +267,7 @@ const winner = (() => {
                 if (gameBoard.array[i] === gameBoard.array[i + 1] && gameBoard.array[i] === gameBoard.array[i + 2]) {
                     winner.setWin(true);
                     player = gameBoard.array[i];
+                    squares[i].style.backgroundColor = squares[i + 1].style.backgroundColor = squares[i + 2].style.backgroundColor = 'green';
                 }
             }
         }
@@ -272,6 +276,7 @@ const winner = (() => {
                 if (gameBoard.array[i] === gameBoard.array[i + 3] && gameBoard.array[i] === gameBoard.array[i + 6]) {
                     winner.setWin(true);
                     player = gameBoard.array[i];
+                    squares[i].style.backgroundColor = squares[i + 3].style.backgroundColor = squares[i + 6].style.backgroundColor = 'green';
                 }
             }
         }
@@ -280,10 +285,12 @@ const winner = (() => {
                 if (gameBoard.array[i] === gameBoard.array[i + 4] && gameBoard.array[i] === gameBoard.array[i + 8]) {
                     winner.setWin(true);
                     player = gameBoard.array[i];
+                    squares[i].style.backgroundColor = squares[i + 4].style.backgroundColor = squares[i + 8].style.backgroundColor = 'green';
                 }
                 else if (i === 2 && gameBoard.array[i] === gameBoard.array[i + 2] && gameBoard.array[i] === gameBoard.array[i + 4]) {
                     winner.setWin(true);
                     player = gameBoard.array[i];
+                    squares[i].style.backgroundColor = squares[i + 2].style.backgroundColor = squares[i + 4].style.backgroundColor = 'green';
                 }
             }
         }

@@ -97,6 +97,8 @@ button {
     background-color: lightgray;
     border: none;
     color: black;
+    font-weight: bold;
+    font-size: 90%;
 }
 
 .multiplayer button:active {

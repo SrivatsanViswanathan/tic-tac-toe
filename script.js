@@ -100,6 +100,7 @@ const buildMultiScreen = (() => {
         for (let i = 0; i < 9; i++) {
             const square = document.createElement('div');
             square.classList.add('square');
+            square.setAttribute('value', 'false');
             if (i <= 2) {
                 square.classList.add('one');
             }
@@ -262,6 +263,7 @@ const buildSingleScreen = (() => {
         for (let i = 0; i < 9; i++) {
             const square = document.createElement('div');
             square.classList.add('square');
+            square.setAttribute('value', 'false');
             if (i <= 2) {
                 square.classList.add('one');
             }
@@ -358,15 +360,21 @@ const players = (name, player) => {
 const updateGameBoard = (() => {
     const fillGameBoard = () => {
         const squares = document.querySelectorAll('.square');
+        const multiplayer = document.querySelector('#multiplayer');
         for (let i = 0; i < gameBoard.array.length; i++) {
             squares[i].addEventListener('click', () => {
                 let win = winner.getWin();
+                let repeat = true;
                 if (!win) {
                     if (xcount === ocount && squares[i].getAttribute('value') != 'true') {
                         gameBoard.array[i] = 'X';
                     }
                     else if (xcount > ocount && squares[i].getAttribute('value') != 'true') {
                         gameBoard.array[i] = 'O';
+                    }
+
+                    if (multiplayer.style.display === 'none' && squares[i].getAttribute('value') != 'true') {
+                        repeat = false;
                     }
 
                     squares[i].textContent = gameBoard.array[i];
@@ -379,6 +387,10 @@ const updateGameBoard = (() => {
                         squares[i].setAttribute('value', 'true');
                     }
                     winner.findWinner();
+                    if (!repeat && !winner.getWin()) {
+                        AI.easy();
+                        winner.findWinner();
+                    }
                 }
             });
         }
@@ -746,6 +758,33 @@ const winner = (() => {
     }
     return {findWinner, getWin, setWin};
 })();
+
+const AI = (() => {
+    const easy = () => {
+        const array = [];
+        const squares = document.querySelectorAll('.square');
+        for (let i = 0; i < 9; i++) {
+            if (squares[i].getAttribute('value') === 'false') {
+                array.push(i);
+            }
+            if (squares[i].getAttribute('value') === 'true') {
+                array.splice(i, 1);
+            }
+        }
+        let x = Math.floor(Math.random() * array.length);
+        let location = array[x];
+        console.log(array);
+        
+        gameBoard.array[location] = 'O';
+    
+        console.log(gameBoard.array);
+        squares[location].textContent = gameBoard.array[location];
+        squares[location].setAttribute('value', 'true');
+        ocount++;
+    }
+    return {easy};
+})();
+
 let xcount = 0;
 let ocount = 0;
 
@@ -754,11 +793,11 @@ let player2 = players();
 
 winner.setWin(false);
 
+
 newGame.display();
 
 
 //singlePlayer.modal();
 //singlePlayer.playAgain();
 //singlePlayer.newGame();
-
 

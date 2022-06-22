@@ -3,10 +3,327 @@ const gameBoard = {
     array: ['', '', '', '', '', '', '', '', '']
 }
 
+const buildMultiScreen = (() => {
+    const multiplayer = document.querySelector('#multiplayer');
+    const build = () => {
+        //Left Side
+        const left = document.createElement('div');
+        left.classList.add('left');
+        left.setAttribute('id', 'left');
+        multiplayer.appendChild(left);
+
+        const changeName = document.createElement('div');
+        changeName.classList.add('change-name');
+        changeName.setAttribute('id', 'change-name');
+        left.appendChild(changeName);
+
+        const form = document.createElement('form');
+        form.classList.add('form');
+        form.setAttribute('id', 'form');
+        form.setAttribute('onsubmit', 'return false;')
+        changeName.appendChild(form);
+
+        for (let i = 1; i < 3; i++) {
+            const input = document.createElement('div');
+            input.classList.add('input');
+            form.appendChild(input);
+
+            const label = document.createElement('label');
+            label.setAttribute('for', 'player' + i);
+            label.setAttribute('id', 'label' + i);
+            label.textContent = 'Player ' + i + ":";
+            input.appendChild(label);
+
+            const text = document.createElement('input');
+            text.setAttribute('type', text);
+            text.setAttribute('id', 'player' + i);
+            text.setAttribute('name', 'player' + i);
+            input.appendChild(text);
+        }
+
+        const formButton = document.createElement('div');
+        formButton.classList.add('formButton');
+        changeName.appendChild(formButton);
+
+        const submit = document.createElement('button');
+        submit.classList.add('submit');
+        submit.setAttribute('id', 'submit');
+        submit.textContent = 'Submit';
+        formButton.appendChild(submit);
+
+        const error = document.createElement('div');
+        error.classList.add('error');
+        error.setAttribute('id', 'error');
+        changeName.appendChild(error);
+
+        const buttons = document.createElement('div');
+        buttons.classList.add('buttons');
+        left.appendChild(buttons);
+
+        const formSubmit = document.createElement('button');
+        formSubmit.classList.add('cButton');
+        formSubmit.setAttribute('id', 'cButton');
+        formSubmit.textContent = 'Change Name';
+        buttons.appendChild(formSubmit);
+
+
+        //Right side
+        const right = document.createElement('div');
+        right.classList.add('right');
+        multiplayer.appendChild(right);
+
+        const top = document.createElement('div');
+        top.classList.add('top');
+        right.appendChild(top);
+
+        const title = document.createElement('div');
+        title.classList.add('title');
+        top.appendChild(title);
+
+        for (let i = 1; i < 3; i++) {
+            const heading = document.createElement('h3');
+            heading.setAttribute('id', 'player' + i + '-heading');
+            heading.textContent = 'Player ' + i;
+            title.appendChild(heading);
+        }
+
+        const middle = document.createElement('div');
+        middle.classList.add('middle');
+        right.appendChild(middle);
+
+        const gameBoard = document.createElement('gameBoard');
+        gameBoard.classList.add('gameBoard');
+        middle.appendChild(gameBoard);
+
+
+        // Game board
+        for (let i = 0; i < 9; i++) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            if (i <= 2) {
+                square.classList.add('one');
+            }
+            else if (i >= 3 && i <= 5) {
+                square.classList.add('two');
+            }
+            else {
+                square.classList.add('three');
+            }
+
+            if (i === 0 || i === 3 || i === 6) {
+                square.classList.add('first');
+            }
+            else if (i === 2 || i === 5 || i === 8) {
+                square.classList.add('last');
+            }
+            gameBoard.appendChild(square);
+        }
+
+        const bottom = document.createElement('div');
+        bottom.classList.add('bottom');
+        right.appendChild(bottom);
+
+        const message = document.createElement('div');
+        message.classList.add('message');
+        message.setAttribute('id', 'message');
+        message.textContent = 'Undecided';
+        bottom.appendChild(message);
+
+        const buttons2 = document.createElement('div');
+        buttons2.classList.add('buttons');
+        bottom.appendChild(buttons2);
+
+        const playAgain = document.createElement('button');
+        playAgain.classList.add('play-again');
+        playAgain.setAttribute('id', 'play-again');
+        playAgain.textContent = 'Play Again';
+        buttons2.appendChild(playAgain);
+
+        const restart = document.createElement('button');
+        restart.classList.add('restart');
+        restart.setAttribute('id', 'restart');
+        restart.textContent = 'Restart';
+        buttons2.appendChild(restart);
+
+        player1 = players('Player 1', 'Player 1');
+        player2 = players('Player 1', 'Player 2');
+    }
+
+    const destroy = () => {
+        multiplayer.textContent = '';
+    }
+
+    return {build, destroy};
+})();
+
+const buildSingleScreen = (() => {
+    const single = document.querySelector('#single-player');
+    const build = () => {
+        //Left Side
+        const left = document.createElement('div');
+        left.classList.add('left');
+        left.setAttribute('id', 'left');
+        single.appendChild(left);
+
+        const changeName = document.createElement('div');
+        changeName.classList.add('change-name');
+        changeName.setAttribute('id', 'change-name');
+        left.appendChild(changeName);
+
+        const form = document.createElement('form');
+        form.classList.add('form');
+        form.setAttribute('id', 'form');
+        form.setAttribute('onsubmit', 'return false;')
+        changeName.appendChild(form);
+
+        for (let i = 1; i < 3; i++) {
+            const input = document.createElement('div');
+            input.classList.add('input');
+            form.appendChild(input);
+
+            const label = document.createElement('label');
+            label.setAttribute('for', 'player' + i);
+            label.setAttribute('id', 'label' + i);
+            label.textContent = 'Player ' + i + ":";
+            input.appendChild(label);
+
+            const text = document.createElement('input');
+            text.setAttribute('type', 'text');
+            text.setAttribute('id', 'player' + i);
+            text.setAttribute('name', 'player' + i);
+            input.appendChild(text);
+
+            if (i === 2) {
+                input.style.display = 'none';
+                text.style.display = 'none';
+                text.value = 'AI';
+            }
+        }
+
+        const formButton = document.createElement('div');
+        formButton.classList.add('formButton');
+        changeName.appendChild(formButton);
+
+        const submit = document.createElement('button');
+        submit.classList.add('submit');
+        submit.setAttribute('id', 'submit');
+        submit.textContent = 'Submit';
+        formButton.appendChild(submit);
+
+        const error = document.createElement('div');
+        error.classList.add('error');
+        error.setAttribute('id', 'error');
+        changeName.appendChild(error);
+
+        const buttons = document.createElement('div');
+        buttons.classList.add('buttons');
+        left.appendChild(buttons);
+
+        const formSubmit = document.createElement('button');
+        formSubmit.classList.add('cButton');
+        formSubmit.setAttribute('id', 'cButton');
+        formSubmit.textContent = 'Change Name';
+        buttons.appendChild(formSubmit);
+
+
+        //Right side
+        const right = document.createElement('div');
+        right.classList.add('right');
+        single.appendChild(right);
+
+        const top = document.createElement('div');
+        top.classList.add('top');
+        right.appendChild(top);
+
+        const title = document.createElement('div');
+        title.classList.add('title');
+        top.appendChild(title);
+
+        for (let i = 1; i < 3; i++) {
+            const heading = document.createElement('h3');
+            heading.setAttribute('id', 'player' + i + '-heading');
+            heading.textContent = 'Player ' + i;
+            if (i === 2) {
+                heading.textContent = 'AI';
+            }
+            title.appendChild(heading);
+        }
+
+        const middle = document.createElement('div');
+        middle.classList.add('middle');
+        right.appendChild(middle);
+
+        const gameBoard = document.createElement('gameBoard');
+        gameBoard.classList.add('gameBoard');
+        middle.appendChild(gameBoard);
+
+
+        // Game board
+        for (let i = 0; i < 9; i++) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            if (i <= 2) {
+                square.classList.add('one');
+            }
+            else if (i >= 3 && i <= 5) {
+                square.classList.add('two');
+            }
+            else {
+                square.classList.add('three');
+            }
+
+            if (i === 0 || i === 3 || i === 6) {
+                square.classList.add('first');
+            }
+            else if (i === 2 || i === 5 || i === 8) {
+                square.classList.add('last');
+            }
+            gameBoard.appendChild(square);
+        }
+
+        const bottom = document.createElement('div');
+        bottom.classList.add('bottom');
+        right.appendChild(bottom);
+
+        const message = document.createElement('div');
+        message.classList.add('message');
+        message.setAttribute('id', 'message');
+        message.textContent = 'Undecided';
+        bottom.appendChild(message);
+
+        const buttons2 = document.createElement('div');
+        buttons2.classList.add('buttons');
+        bottom.appendChild(buttons2);
+
+        const playAgain = document.createElement('button');
+        playAgain.classList.add('play-again');
+        playAgain.setAttribute('id', 'play-again');
+        playAgain.textContent = 'Play Again';
+        buttons2.appendChild(playAgain);
+
+        const restart = document.createElement('button');
+        restart.classList.add('restart');
+        restart.setAttribute('id', 'restart');
+        restart.textContent = 'Restart';
+        buttons2.appendChild(restart);
+
+        player1 = players('Player 1', 'Player 1');
+        player2 = players('AI', 'Player 2');
+
+    }
+
+    const destroy = () => {
+        single.textContent = '';
+    }
+
+    return { build, destroy };
+})();
+
 // Create Player Objects
 const players = (name, player) => {
     const player1 = document.querySelector('#player1-heading');
     const player2 = document.querySelector('#player2-heading');
+    const player2Hidden = document.querySelector('#player2');
     if (name === '') {
         name = player;
     }
@@ -26,15 +343,21 @@ const players = (name, player) => {
             else if (player === 'Player 2') {
                 player2.textContent = name;
             }
+            if (player === 'Player 2' && player2Hidden.style.display === 'none') {
+                player2.textContent = 'AI';
+                name = 'AI';
+            }
         }
         winner.findWinner();
     }
+    console.log(name, player);
     return {getName, name, player};
 }
 
+// Update the Tic Tac Toe Board
 const updateGameBoard = (() => {
-    const squares = document.querySelectorAll('.square');
     const fillGameBoard = () => {
+        const squares = document.querySelectorAll('.square');
         for (let i = 0; i < gameBoard.array.length; i++) {
             squares[i].addEventListener('click', () => {
                 let win = winner.getWin();
@@ -67,42 +390,55 @@ const updateGameBoard = (() => {
 const newGame = (() => {
     const container = document.querySelector('#new-game');
     const multiplayer = document.querySelector('#multiplayer');
-    
+    const single = document.querySelector('#single-player');
+
     const display = () => {
         multiplayer.style.display = 'none';
+        single.style.display = 'none';
         container.style.display = 'flex';
-        container.addEventListener('click', (e) => {
-            const button = e.target.nodeName === 'BUTTON';
-            const mButton = e.target.id === 'mButton';
-            const sButton = e.target.id === 'sButton';
-
-            if (button && mButton) {
+        const mButton = document.querySelector('#mButton');
+        const sButton = document.querySelector('#sButton');
+        let counter = 0;
+        mButton.addEventListener('click', () => {
+            if (counter === 0) {
+                buildSingleScreen.destroy();
+                buildMultiScreen.build();
+                multi.modal();
+                multi.playAgain();
+                multi.newGame();
+                formInformation.form();
+                updateGameBoard.fillGameBoard();
                 container.style.display = 'none';
-                multiplayer.style.display = 'flex'
+                multiplayer.style.display = 'flex';
             }
-            else if (button && sButton) {
-                container.style.display = 'none';
-            }
-            else {
-               return;
-            }
+            counter++;
         });
+
+        sButton.addEventListener('click', () => {
+            if (counter === 0) {
+                buildMultiScreen.destroy();
+                buildSingleScreen.build();
+                multi.modal();
+                multi.playAgain();
+                multi.newGame();
+                formInformation.form();
+                updateGameBoard.fillGameBoard();
+                container.style.display = 'none';
+                single.style.display = 'flex';
+            }
+            counter++;
+        });
+        counter = 0;
     }
     return {display};
 })();
 
 // Multiplayer Screen
-const multiplayer = (() => {
-    const nameChange = document.querySelector('#change-name');
-    const cbutton = document.querySelector('#cButton');
-    const buttonSubmit = document.querySelector('#submit');
-    const restartButton = document.querySelector('#restart');
-    const playAgainButton = document.querySelector('#play-again')
-    const message = document.querySelector('#message');
-    const squares = document.querySelectorAll('.square');
-    const form = document.querySelector('#form');
-    const error = document.querySelector('#error');
+const multi = (() => {
     const modal = () => {
+        const nameChange = document.querySelector('#change-name');
+        const cbutton = document.querySelector('#cButton');
+        const buttonSubmit = document.querySelector('#submit');
         cbutton.addEventListener('click', () => {
             cbutton.disabled = true;
             window.setTimeout(timing, 1000);
@@ -119,8 +455,106 @@ const multiplayer = (() => {
         buttonSubmit.addEventListener('click', () => {
             const player1Name = document.querySelector('#player1');
             const player2Name = document.querySelector('#player2');
+            const validate = formInformation.formValidation(player1Name.value, player2Name.value);;
+            if (validate) {
+                if (nameChange.style.display === '') {
+                    active();
+                }
+                else {
+                    notActive();
+                }
+            }
+        });
+    }
+    const newGame = () => {
+        const restartButton = document.querySelector('#restart');
+        restartButton.addEventListener('click', () => {
+            restart.homeScreen();
+        });
+    }
+    function active() {
+        const nameChange = document.querySelector('#change-name');
+        const buttonSubmit = document.querySelector('#submit');
+        const form = document.querySelector('#form');
+        const error = document.querySelector('#error');
+        nameChange.style.display = 'grid';
+        nameChange.classList.add('active');
+        window.setTimeout(timing, 300);
+        function timing() {
+            buttonSubmit.classList.add('active');
+            form.classList.add('active');
+            error.classList.add('active');
+        }
+    }
+    function notActive() {
+        const nameChange = document.querySelector('#change-name');
+        const form = document.querySelector('#form');
+        const error = document.querySelector('#error');
+        const buttonSubmit = document.querySelector('#submit');
+        nameChange.classList.remove('active');
+        window.setTimeout(timing, 300);
+        window.setTimeout(timing2, 1500);
+        function timing() {
+            form.classList.remove('active');
+            buttonSubmit.classList.remove('active');
+            error.classList.remove('active');
+        }
+        function timing2() {
+            nameChange.style.display = '';
+        }
+    }
+    const playAgain = () => {
+        const squares = document.querySelectorAll('.square');
+        const message = document.querySelector('#message');
+        const playAgainButton = document.querySelector('#play-again');
+        playAgainButton.addEventListener('click', () => {
+            for (let i = 0; i < 9; i++) {
+                squares[i].textContent = '';
+                squares[i].style.backgroundColor = 'white';
+                gameBoard.array[i] = '';
+                squares[i].setAttribute('value', 'false');
+            }
+            xcount = 0;
+            ocount = 0;
+            message.textContent = 'Undecided';
+            message.style.visibility = 'hidden';
+            winner.setWin(false);
+        });
+    }
+    return {modal, newGame, playAgain};
+})();
+
+
+// Single Player Screen
+const singlePlayer = (() => {
+    const parent = document.querySelector('#single-player');
+    const nameChange = document.querySelector('#change-name');
+    const cbutton = document.querySelector('#cButton');
+    const buttonSubmit = document.querySelector('#submit');
+    const restartButton = document.querySelector('#restart');
+    const playAgainButton = document.querySelector('#play-again');
+    const message = document.querySelector('#message');
+    const squares = document.querySelectorAll('.square');
+    const form = document.querySelector('#form');
+    const error = document.querySelector('#error');
+    const modal = () => {
+        cbutton.addEventListener('click', () => {
+            cbutton.disabled = true;
+            window.setTimeout(timing, 1000);
+            function timing() {
+                cbutton.disabled = false;
+            }
+            if (nameChange.style.display === '') {
+                active();
+            }
+            else {
+                notActive();
+            }
+        });
+        buttonSubmit.addEventListener('click', () => {
+            const player1Name = document.querySelector('#player1');
+            const player2Name = document.querySelector('#player2');
             const validate = formInformation.formValidation(player1Name.value, player2Name.value);
-            console.log(validate);
             if (validate) {
                 if (nameChange.style.display === '') {
                     active();
@@ -205,22 +639,24 @@ const restart = (() => {
         form.classList.remove('active');
         formButton.classList.remove('active');
         nameChange.style.display = '';
-        player1 = players('Player 1', 'Player 1');
-        player2 = players('Player 2', 'Player 2');
+        player1 = players();
+        player2 = players();
         xcount = 0;
         ocount = 0;
         message.textContent = 'Undecided';
         message.style.visibility = 'hidden';
         winner.setWin(false);
+        buildMultiScreen.destroy();
+        buildSingleScreen.destroy();
         newGame.display();
     }
     return {homeScreen};
 })();
 
 // Get Player Name Change
-const formInformation = (() => {
-    const formButton = document.querySelector('#submit');
+const formInformation = (() => {   
     const form = () => {
+        const formButton = document.querySelector('#submit');
         formButton.addEventListener('click', () => {
             const player1Name = document.querySelector('#player1');
             const player2Name = document.querySelector('#player2');
@@ -245,14 +681,12 @@ const formInformation = (() => {
             error.textContent = ''
             return true;
         }
-    }
+    }  
     return {form, formValidation};
 })();
 
 // Find the Winner
 const winner = (() => {
-    const message = document.querySelector('#message');
-    const squares = document.querySelectorAll('.square');
     let win = false;
     let player = '';
     const getWin = () => {
@@ -262,6 +696,8 @@ const winner = (() => {
         win = winner;
     }
     const findWinner = () => {
+        const message = document.querySelector('#message');
+        const squares = document.querySelectorAll('.square');
         for (let i = 0; i < 9; i = i + 3) {
             if (gameBoard.array[i] === 'X' || gameBoard.array[i] === 'O') {
                 if (gameBoard.array[i] === gameBoard.array[i + 1] && gameBoard.array[i] === gameBoard.array[i + 2]) {
@@ -310,18 +746,19 @@ const winner = (() => {
     }
     return {findWinner, getWin, setWin};
 })();
-
 let xcount = 0;
 let ocount = 0;
 
-let player1 = players('Player 1', 'Player 1');
-let player2 = players('Player 2', 'Player 2');
+let player1 = players();
+let player2 = players();
 
 winner.setWin(false);
 
 newGame.display();
-multiplayer.modal();
-multiplayer.playAgain();
-multiplayer.newGame();
-formInformation.form();
-updateGameBoard.fillGameBoard();
+
+
+//singlePlayer.modal();
+//singlePlayer.playAgain();
+//singlePlayer.newGame();
+
+
